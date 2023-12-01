@@ -42,6 +42,9 @@ public class ProductoController {
 	
 	@GetMapping("")
 	public String show(Model model) {
+		 List<Producto> juegos = productoService.findAll();
+		 model.addAttribute("juegos", juegos);
+		 
 		model.addAttribute("productos", productoService.findAll());
 		return "productos/show";
 	}
@@ -100,6 +103,7 @@ public class ProductoController {
 		productoService.update(producto);		
 		return "redirect:/productos";
 	}
+	
 	
 	@GetMapping("/delete/{id}")
 	public String delete(@PathVariable Integer id) {

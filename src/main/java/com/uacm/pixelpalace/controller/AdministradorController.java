@@ -62,6 +62,4 @@ public class AdministradorController {
 		
 		return "administrador/detalleventa";
 	}
-	
-	
 }

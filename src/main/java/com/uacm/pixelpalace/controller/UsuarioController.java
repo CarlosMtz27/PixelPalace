@@ -20,11 +20,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.uacm.pixelpalace.model.FormaDePago;
+import com.uacm.pixelpalace.model.Producto;
 import com.uacm.pixelpalace.model.Usuario;
 import com.uacm.pixelpalace.model.Venta;
 import com.uacm.pixelpalace.service.IFormaPagoService;
 import com.uacm.pixelpalace.service.IUsuarioService;
 import com.uacm.pixelpalace.service.IVentaService;
+import com.uacm.pixelpalace.service.ProductoService;
 import com.uacm.pixelpalace.service.SendMailService;
 
 
@@ -33,6 +35,10 @@ import com.uacm.pixelpalace.service.SendMailService;
 public class UsuarioController {
 	
 	private final Logger logger= LoggerFactory.getLogger(UsuarioController.class);
+	
+	
+	@Autowired
+	private ProductoService productoService;
 	
 	@Autowired
 	private IUsuarioService usuarioService;
@@ -48,7 +54,7 @@ public class UsuarioController {
 	
 	private String codigoVerificacion;
 	
-	
+	//Creamos el objeto para encriptar la contraseña del usuario
 	BCryptPasswordEncoder passEncode= new BCryptPasswordEncoder();
 	
 	
@@ -62,10 +68,11 @@ public class UsuarioController {
 	public String save(Usuario usuario) {
 		logger.info("Usuario registro: {}", usuario);
 		usuario.setTipo("USER");
-		usuario.setPassword( passEncode.encode(usuario.getPassword()));
+		usuario.setPassword( passEncode.encode(usuario.getPassword()));//encriptamos la contraseña con el objeto que creamos
 		usuarioService.save(usuario);		
 		return "redirect:/";
 	}
+	
 	
 	@GetMapping("/login")
 	public String login() {
@@ -103,7 +110,7 @@ public class UsuarioController {
 		codigoVerificacion = generarCodigo();
 		
 		
-		sendMailService.sendMail("pixelpalaceuacm@gmail.com", email, "Codigo de verifcacion","Hola, tu codigo de verificacion es: "+ codigoVerificacion);
+		sendMailService.sendStyledMail("pixelpalaceuacm@gmail.com", email, "Codigo de verifcacion",codigoVerificacion);
         
 		model.addAttribute("correoUsuario",email);
 	    return "usuario/codigo-verificacion";
@@ -183,7 +190,12 @@ public class UsuarioController {
 		session.removeAttribute("idusuario");
 		return "redirect:/";
 	}
-	
+	@GetMapping("/juegos")
+	public String Listajuegos(Model model) {
+	    List<Producto> juegos = productoService.findAll();
+	    model.addAttribute("juegos", juegos);
+	    return "usuario/juegos";
+	}
 	
 	@PostMapping("/agregar-tarjeta")
 	public String agregarTarjeta(Model model, HttpSession session, @ModelAttribute("formaDePago") FormaDePago formaDePago) {

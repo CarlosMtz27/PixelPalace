@@ -1,0 +1,62 @@
+
+body {
+	background-color: #f8f9fa;
+}
+
+.navbar {
+	background-color: #007bff;
+	color: #fff;
+}
+
+.navbar-toggler-icon {
+	background-color: #fff;
+}
+
+.product-list {
+	list-style-type: none;
+	padding: 0;
+}
+
+.product-item {
+	margin-bottom: 1rem;
+	background-color: #fff;
+	border: 1px solid rgba(0, 0, 0, .125);
+	border-radius: 10px;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	padding: 1rem;
+}
+
+.product-item:hover {
+	transform: translateY(-3px);
+	transition: transform 0.2s ease-in-out;
+}
+
+.product-image {
+	max-width: 100px;
+	margin-right: 1rem;
+}
+
+.total-price {
+	font-size: 24px;
+	color: #007bff;
+}
+
+.custom-title {
+	color: #343a40;
+}
+
+#nombre{
+	color: black;
+}
+
+#cantidad{
+	color: black;
+}
+
+#precio{
+	color: black;
+}
+
+#precioTotal{
+	color: black;
+}

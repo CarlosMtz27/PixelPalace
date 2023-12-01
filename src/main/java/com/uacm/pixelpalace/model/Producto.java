@@ -1,11 +1,15 @@
 package com.uacm.pixelpalace.model;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -31,7 +35,8 @@ public class Producto {
 	@ManyToOne
 	private Usuario usuario;
 
-	
+	 @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL, orphanRemoval = true)
+	 private List<DetalleVenta> detalles;
 	
 	public Producto() {
 
@@ -215,6 +220,12 @@ public class Producto {
 		return "Producto [id=" + id + ", nombre=" + nombre + ", descripcion=" + descripcion + ", imagen=" + imagen
 				+ ", precio=" + precio + ", cantidad=" + cantidad + ", genero=" + genero 
 				+ ", usuario=" + usuario + "]";
+	}
+
+	@OneToMany(mappedBy = "producto", cascade = CascadeType.ALL, orphanRemoval = true)
+	public List<DetalleVenta> getDetalles() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 

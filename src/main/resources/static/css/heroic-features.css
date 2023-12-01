@@ -3,31 +3,109 @@
  * Copyright 2013-2020 Start Bootstrap
  * Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-heroic-features/blob/master/LICENSE)
  */
+ 
+ .minecraft-title {
+    font-family: 'Minecraftia', sans-serif;
+    text-align: center;
+    color: #1a8cfc; /* Color azul similar al de Minecraft */
+    text-shadow: 2px 2px 2px #000; /* Sombra de texto */
+    letter-spacing: 2px; /* Espaciado entre letras */
+    font-smooth: never; /* Desactiva el suavizado de fuentes */
+}
+
 body {
   padding-top: 56px;
 }
+#cuerpo-listaJuegos{
+	background-color: #000; /* Color de fondo negro */
+	overflow: visible;
+    background-image: linear-gradient(45deg, #00f, #0f0); /* Gradiente de colores */
+    background-attachment: fixed;
+    background-size: 200% 200%; /* Tamaño del fondo del gradiente */
+    animation: gradientAnimation 10s ease infinite; /* Animación del gradiente */
+}
+@keyframes gradientAnimation {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
 #cuerpo-home{
-	 background-image: url('/images/fondo-gamer.jpg');
-     background-size: cover;
+	 background: linear-gradient(45deg, #00f, #0f0);
+	 background-size: 200% 200%;
+     overflow: visible;
      background-attachment: fixed;
+     animation: backgroudAnimation 10s ease infinite;
+}
+@keyframes backgroudAnimation {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+li.list-group-item {
+    position: relative;
+    display: block;
+    padding: 0.75rem 1.25rem;
+    background-color: #fff0;
+}
+
+h5{
+	color: #ffffff;
+}
+p{
+color: aliceblue;	
+}
+
+#imagenJuego {
+    width: 100px;
+    height: 100px;
+}
+
+.mi-contenedor p {
+    color: black;
+
+}
+
+.mi-contenedor h5 {
+    color: black;
+
 }
 
 #h1-home{
 	 background: none;
      border: none;
+     text-align: center;
      color: rgb(255, 255, 255);
 }
 #p-home{
-	
+	text-align: center;
 	color: #ffffff;
 }
 .jumbotron {
-	background-image: url('/images/nether-portal.gif');
     padding: 2rem 1rem;
     margin-bottom: 2rem;
-    border-radius: .3rem;
+    border: 20px solid transparent;
+    border-image: url('/images/Obsidian.png') round 25%;
+    border-radius: 0;
+    background-image: url('/images/nether-portal.gif');
     } 
+    
 #body-create{
 	background-image: url('/images/10370.png');
 }
-
+.mr-3 {
+    position: relative;
+    padding: 0px; /* Ajusta según tus necesidades */
+}

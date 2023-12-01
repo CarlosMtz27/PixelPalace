@@ -19,6 +19,7 @@
 
 	</head>
 	<body id="cuerpo-home">
+		<div class="mi-contenedor">
 		<!-- Navigation -->
 		<div th:include="usuario/template_usuario.html::header-user"></div>
 		<!-- Page Content -->
@@ -37,12 +38,13 @@
                     		<p class="card-text" th:text="${producto.descripcion}"></p>
                 		</div>
                 		<div class="card-footer">
-							<a th:href="@{/productohome/{id}  (id=${producto.id})  }" class="btn btn-success">Ver producto</a>
+							<a th:href="@{productohome/{id}(id=${producto.id})}" class="btn btn-success">Ver producto</a>
 						</div>
             		</div>
         		</div>
 			</div>
 		</div>
+	  </div>
 		<!-- Footer -->
 		<div th:include="usuario/template_usuario.html::footer"></div>
 		<!-- Bootstrap core JavaScript -->

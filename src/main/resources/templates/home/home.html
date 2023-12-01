@@ -18,8 +18,10 @@
 		<link rel="icon" href="images/almohadilla-de-juego.png" type="image/png">
 	</head>
 	<body id="cuerpo-home">
+		<div class="mi-contenedor">
 		<!-- Navigation -->
 		<div th:include="home/template_home.html::header"></div>
+		
 		<!-- Page Content -->
 		<div class="container mt-5">
 			<!-- Jumbotron Header -->
@@ -37,11 +39,11 @@
                 		</div>
                 		<div class="card-footer">
 							<a th:href="@{verproducto/{id}(id=${producto.id})}" class="btn btn-success">Ver producto</a>
-							
 						</div>
             		</div>
         		</div>
 			</div>
+		</div>
 		</div>
 		<!-- /.container -->
 		<!-- Footer -->

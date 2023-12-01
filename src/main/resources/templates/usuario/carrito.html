@@ -10,56 +10,53 @@
 		<link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
 		<!-- Custom styles for this template -->
 		<link th:href="@{/css/heroic-features.css}" rel="stylesheet">
+		 <link rel="stylesheet" th:href="@{/css/estilos.css}"/>
+    <script src="@{/carrito/carrito.js}"></script>
 	</head>
 	<body>
 		<!-- Navigation -->
-		<div th:include="usuario/template_usuario.html::header-user"></div>
+		<div th:include="usuario/template_usuario.html::header-user-compras"></div>
 		<!-- Page Content -->
-		<div class="container">
-			<!-- Page Heading/Breadcrumbs -->
-			<h1 class="mt-4 mb-3">Pixel Palace <small>Carrito</small></h1>
-			<ol class="breadcrumb">
-				<li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
-				<li class="breadcrumb-item active">Carrito</li>
-			</ol>
-			<!-- Blog Post -->
-			<div class="card mb-4">
-				<div class="card-body">
-					<div class="row">
-						<div class="col-lg-9">
-							<table class="table">
-								<thead>
-									<tr>
-										<th scope="col">Producto</th>
-										<th scope="col">Precio</th>
-										<th scope="col">Cantidad</th>
-										<th scope="col">Total</th>
-										<th scope="col">Acción</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr th:each="dventa:${cart}">
-										<td th:text="${dventa.nombre}"></td>
-										<td th:text="${dventa.precio}"></td>
-										<td th:text="${dventa.cantidad}"></td>
-										<td th:text="${dventa.total}"></td>
-										<td><a th:href="@{/delete/cart/{id}   (id=${dventa.producto.id}) }" class="btn btn-danger">Quitar</a></td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-						<div class="col-lg-3">
-							<h2 class="card-title">SUBTOTAL</h2>
-							<ul class="list-group">
-								<li class="list-group-item"><h5 th:text="${venta.total}"></h5></li>
-								<!--  <a th:href= "@{/order}" class="btn btn-dark">Comprar Carrito</a>-->
-								<a th:href= "@{/agregar-tarjeta}" class="btn btn-dark">Comprar Carrito</a>
-							</ul>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+		 <div class="container mt-4 mb-4"> 
+        <h1 class="text-center display-4 font-weight-bold mb-4 custom-title">Productos Agregados</h1> 
+        <ul class="product-list">
+            <th:block th:each="dventa:${cart}">
+                <li class="product-item">
+                    <div class="d-flex align-items-center">
+                        <div class="product-image">
+                            <img th:src="@{/images/{img} (img=${dventa.producto.imagen})  }" alt="Producto" class="img-fluid">
+                        </div>
+                        <div class="flex-grow-1">
+                            <h5 th:text="${dventa.nombre}" id="nombre"></h5>
+                            <p th:text="'Cantidad: ' + ${dventa.cantidad}"  id="cantidad"></p>
+                            <p th:text="'Precio por Pieza: $' + ${dventa.precio}" id="precio"></p>
+                            <p th:text="'Precio Total: $' + ${dventa.total}" id="precioTotal" class="font-weight-bold card-text"></p>
+                        </div>
+                        <a th:href="@{/delete/cart/{id}   (id=${dventa.producto.id}) }" class="btn btn-danger">Quitar</a>
+                        <!--<form class="ml-2" th:action="@{/carrito/eliminar}" method="post">
+                    
+                            <button type="submit" class="btn btn-danger btn-sm">
+                                <i class="fas fa-trash"></i> Eliminar
+                            </button>
+                        </form>-->
+                    </div>
+                </li>
+            </th:block>
+        </ul>
+        <p class="text-right total-price">
+            <strong th:text="'Total a Pagar: $' + ${venta.total}"></strong>
+        </p>
+        <div class="row">
+            <div class="col-md-12 text-center mt-3">
+                <!--  <button type="button" class="btn btn-success mx-2">
+                    <i class="fas fa-credit-card"></i> Pagar
+                </button>--><a th:href= "@{/agregar-tarjeta}" class="btn btn-success mx-2">Comprar Carrito</a>
+                <a type="button" class="btn btn-danger mx-2" th:href= "@{/}">
+                    <i class="fas fa-times"></i> Cancelar
+                </a>
+            </div>
+        </div>
+    </div>
 		<!-- /.container -->
 
 		<!-- Footer -->

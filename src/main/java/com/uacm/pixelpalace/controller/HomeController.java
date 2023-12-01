@@ -1,6 +1,5 @@
 package com.uacm.pixelpalace.controller;
 
-import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -21,10 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
-import com.lowagie.text.Paragraph;
-import com.lowagie.text.pdf.PdfWriter;
 import com.uacm.pixelpalace.model.DetalleVenta;
 import com.uacm.pixelpalace.model.FormaDePago;
 import com.uacm.pixelpalace.model.Producto;
@@ -78,9 +74,6 @@ public class HomeController {
 	            session.setAttribute("nombreUsuario", usuario.getNombre());
 	        }
 	    }
-
-		
-		//log.info("Sesion del usuario: {}", session.getAttribute("idusuario"));
 		
 		model.addAttribute("productos", productoService.findAll());
 		
@@ -153,8 +146,18 @@ public class HomeController {
 		
 	}
 
+	@GetMapping("/deleteProducto/{id}")
+	public String deleteProducto(@PathVariable Integer id) {
+	    // Antes de eliminar el producto, elimina manualmente los detalles asociados
+	    productoService.deleteDetallesByProductoId(id);
+	    // Ahora puedes eliminar el producto
+	    productoService.delete(id);
+	    return "redirect:/administrador/productos";
+	}
+
+	
 	// quitar un producto del carrito
-	@GetMapping("/delete/cart/{id}")
+/*	@GetMapping("/delete/cart/{id}")
 	public String deleteProductoCart(@PathVariable Integer id, Model model) {
 
 		// lista nueva de prodcutos
@@ -177,7 +180,7 @@ public class HomeController {
 		model.addAttribute("venta", venta);
 
 		return "usuario/carrito";
-	}
+	} */
 	
 	@GetMapping("/getCart")
 	public String getCart(Model model, HttpSession session) {
@@ -189,24 +192,6 @@ public class HomeController {
 		model.addAttribute("sesion", session.getAttribute("idusuario"));
 		return "/usuario/carrito";
 	}
-	
-	/*@GetMapping("/order")
-	public String order(Model model, HttpSession session) {
-		
-		Usuario usuario =usuarioService.findById( Integer.parseInt(session.getAttribute("idusuario").toString())).get();
-		FormaDePago formaDePago = (FormaDePago) model.getAttribute("formaDePago");
-		
-		//FormaDepago formaDePago = formapago.get()
-		model.addAttribute("cart", detalles);
-		model.addAttribute("venta", venta);
-		model.addAttribute("usuario", usuario);
-		System.out.println(formaDePago);
-
-	    // Agregar el objeto formaDePago al modelo de la vista
-	    model.addAttribute("formaDePago", formaDePago);
-		return "usuario/resumenventa";
-	}*/
-	
 	@GetMapping("/order")
 	public String order(Model model, HttpSession session, @RequestParam("formaDePagoId") Integer formaDePagoId) {
 	    // Recuperar el objeto formaDePago utilizando el ID
@@ -248,32 +233,6 @@ public class HomeController {
 	public String agregarTarjeta(Model model, HttpSession session) {
 		return "usuario/agregar-tarjeta";
 	}
-	
-	// guardar la orden
-	/*@GetMapping("/saveVenta")
-	public String saveVenta(HttpSession session ) {
-		Date fechaCreacion = new Date();
-		venta.setFechaCreacion(fechaCreacion);
-		venta.setNumero(ventaService.generarNumeroVenta());
-		
-		//usuario
-		Usuario usuario =usuarioService.findById( Integer.parseInt(session.getAttribute("idusuario").toString())  ).get();
-		
-		venta.setUsuario(usuario);
-		ventaService.save(venta);
-		
-		//guardar detalles
-		for (DetalleVenta dt:detalles) {
-			dt.setVenta(venta);
-			detalleVentaService.save(dt);
-		}
-		
-		///limpiar lista y venta
-		venta = new Venta();
-		detalles.clear();
-		
-		return "redirect:/";
-	}*/
 	
 	@GetMapping("/tarjeta")
 	public String agregarTarjeta(HttpSession session, Model model) {
@@ -317,37 +276,17 @@ public class HomeController {
 	    
 	    return "usuario/ticketCompraView"; // Nombre de la vista del ticket de compra
 	}
-	
-	/*private byte[] generarPDF() throws DocumentException {
-	    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-	    Document document = new Document();
 
-	    PdfWriter.getInstance(document, outputStream);
-	    document.open();
-
-	    // Agregar contenido al PDF
-	    document.add(new Paragraph("Número de Venta: " + venta.getNumero()));
-	    document.add(new Paragraph("Fecha de Creación: " + venta.getFechaCreacion()));
-	    // Agregar más detalles según tus necesidades
-
-	    // Agregar detalles de la venta
-	    document.add(new Paragraph("Detalles de la Venta:"));
-	    for (DetalleVenta detalle : detalles) {
-	        document.add(new Paragraph("Producto: " + detalle.getProducto().getNombre()));
-	        document.add(new Paragraph("Cantidad: " + detalle.getCantidad()));
-	        document.add(new Paragraph("Precio Unitario: " + detalle.getPrecio()));
-	        document.add(new Paragraph("Total: " + detalle.getTotal()));
-	        document.add(new Paragraph(" ")); // Espacio entre detalles
-	    }
-
-	    document.close();
-	    return outputStream.toByteArray();
-	}*/
-
+	@GetMapping("/juegos")
+	public String showAllGames(Model model) {
+	    List<Producto> productos = productoService.findAll();
+	    model.addAttribute("productos", productos);
+	    return "usuario/juegos";
+	}
 
 	
 	@PostMapping("/search")
-	public String searchProduct(@RequestParam String nombre, Model model) {
+	public String searchProduct(@RequestParam String nombre, Model model, HttpSession session) {
 		log.info("Nombre del producto: {}", nombre);
 		String nombres =  nombre.toLowerCase();
 		//List<Producto> productos= productoService.findAll().stream().filter( p -> p.getNombre().contains(nombre)).collect(Collectors.toList());
@@ -355,7 +294,129 @@ public class HomeController {
 		            .filter(p -> p.getNombre().toLowerCase().contains(nombres))
 		            .collect(Collectors.toList());
 		model.addAttribute("productos", productos);		
-		return "usuario/home";
-	}
+		
+		Integer idUsuario = (Integer) session.getAttribute("idusuario");
 
+		
+		if(idUsuario == null) {
+			return "home/home";
+		}else {
+			return "usuario/home";
+		}
+		//return "usuario/home";
+	}
+	
+	@PostMapping("/searchGames")
+	public String searchGames(@RequestParam String nombre, Model model) {
+		log.info("Nombre del producto: {}", nombre);
+		String nombres =  nombre.toLowerCase();
+	    List<Producto> productos = productoService.findAll().stream()
+	            .filter(p -> p.getNombre().toLowerCase().contains(nombres))
+	            .collect(Collectors.toList());
+	model.addAttribute("productos", productos);
+	    return "usuario/juegos";  // Ajusta el nombre de la vista según la estructura de tu proyecto
+	}
+	
+	@GetMapping("/filterByGenre")
+	public String filterByGenre(@RequestParam String genre, Model model) {
+	    log.info("Filtrar por género: {}", genre);
+
+	    if ("todos".equalsIgnoreCase(genre)) {
+	        List<Producto> productos = productoService.findAll();
+	        model.addAttribute("productos", productos);
+	    } else {
+	        List<Producto> productos = productoService.findAll().stream()
+	                .filter(p -> p.getGenero().equalsIgnoreCase(genre))
+	                .collect(Collectors.toList());
+	        model.addAttribute("productos", productos);
+	        model.addAttribute("generoFiltrado", genre); // Agrega el género al modelo
+	    }
+
+	    return "usuario/juegos";
+	}	
+	
+	@GetMapping("/filterByLetter")
+	public String filterByLetter(@RequestParam String letter, Model model) {
+	    log.info("Filtrar por letra: {}", letter);
+
+	    if ("todos".equalsIgnoreCase(letter)) {
+	        List<Producto> productos = productoService.findAll();
+	        model.addAttribute("productos", productos);
+	    } else {
+	        List<Producto> productos = productoService.findAll().stream()
+	                .filter(p -> p.getNombre().toLowerCase().startsWith(letter.toLowerCase()))
+	                .collect(Collectors.toList());
+	        model.addAttribute("productos", productos);
+	        model.addAttribute("letraFiltrada", letter); // Agrega la letra al modelo
+	    }
+
+	    return "usuario/juegos";
+	}
 }
+/*private byte[] generarPDF() throws DocumentException {
+ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+Document document = new Document();
+
+PdfWriter.getInstance(document, outputStream);
+document.open();
+
+// Agregar contenido al PDF
+document.add(new Paragraph("Número de Venta: " + venta.getNumero()));
+document.add(new Paragraph("Fecha de Creación: " + venta.getFechaCreacion()));
+// Agregar más detalles según tus necesidades
+
+// Agregar detalles de la venta
+document.add(new Paragraph("Detalles de la Venta:"));
+for (DetalleVenta detalle : detalles) {
+    document.add(new Paragraph("Producto: " + detalle.getProducto().getNombre()));
+    document.add(new Paragraph("Cantidad: " + detalle.getCantidad()));
+    document.add(new Paragraph("Precio Unitario: " + detalle.getPrecio()));
+    document.add(new Paragraph("Total: " + detalle.getTotal()));
+    document.add(new Paragraph(" ")); // Espacio entre detalles
+}
+
+document.close();
+return outputStream.toByteArray();
+}*/
+//guardar la orden
+	/*@GetMapping("/saveVenta")
+	public String saveVenta(HttpSession session ) {
+		Date fechaCreacion = new Date();
+		venta.setFechaCreacion(fechaCreacion);
+		venta.setNumero(ventaService.generarNumeroVenta());
+		
+		//usuario
+		Usuario usuario =usuarioService.findById( Integer.parseInt(session.getAttribute("idusuario").toString())  ).get();
+		
+		venta.setUsuario(usuario);
+		ventaService.save(venta);
+		
+		//guardar detalles
+		for (DetalleVenta dt:detalles) {
+			dt.setVenta(venta);
+			detalleVentaService.save(dt);
+		}
+		
+		///limpiar lista y venta
+		venta = new Venta();
+		detalles.clear();
+		
+		return "redirect:/";
+	}*/
+/*@GetMapping("/order")
+public String order(Model model, HttpSession session) {
+	
+	Usuario usuario =usuarioService.findById( Integer.parseInt(session.getAttribute("idusuario").toString())).get();
+	FormaDePago formaDePago = (FormaDePago) model.getAttribute("formaDePago");
+	
+	//FormaDepago formaDePago = formapago.get()
+	model.addAttribute("cart", detalles);
+	model.addAttribute("venta", venta);
+	model.addAttribute("usuario", usuario);
+	System.out.println(formaDePago);
+
+    // Agregar el objeto formaDePago al modelo de la vista
+    model.addAttribute("formaDePago", formaDePago);
+	return "usuario/resumenventa";
+}*/
+//log.info("Sesion del usuario: {}", session.getAttribute("idusuario"));

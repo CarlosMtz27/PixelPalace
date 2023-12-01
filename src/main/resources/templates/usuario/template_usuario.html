@@ -51,13 +51,6 @@
 		<div class="container">
 		
 			<a class="navbar-brand" th:href="@{/}"><i class="fas fa-gamepad"></i> Pixel Palace</a>
-
-			<!-- <form class="form-inline my-2 my-lg-0" method="post" th:action="@{/search}">
-				<input class="form-control mr-sm-2" type="search"
-					placeholder="Buscar" aria-label="Search" name="nombre"
-					autocomplete="off">
-				<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
-			</form> -->
 			<form class="form-inline ml-2" method="post" th:action="@{/search}">
             <input class="form-control mr-sm-2" type="search" placeholder="Buscar productos" aria-label="Buscar" id="query" list="resultados-list" oninput="buscarProductos()" name="nombre"
 					autocomplete="off">
@@ -83,6 +76,7 @@
 							
 							<div class="dropdown-menu"
 								aria-labelledby="navbarDropdownMenuLink">
+								<a class="dropdown-item" th:href="@{/usuario/juegos}">Biblioteca de juegos</a>
 								<a class="dropdown-item" th:href="@{/usuario/compras}">Compras</a>
 								<a class="dropdown-item" th:href="@{/getCart}">Carrito</a> 
 								<a class="dropdown-item" th:href="@{/usuario/cerrar}">Salir</a> 
@@ -91,9 +85,73 @@
 			</div>
 		</div>
 	</nav>
-
 </div>
 
+<div th:fragment="header-ListaJuegos">
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+		<div class="container">
+
+			<a class="navbar-brand" th:href="@{/}"><i class="fas fa-gamepad"></i> Pixel Palace</a>
+
+			<!-- Omitimos la barra de búsqueda para la lista de juegos -->
+			
+			<button class="navbar-toggler" type="button" data-toggle="collapse"
+				data-target="#navbarResponsive" aria-controls="navbarResponsive"
+				aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarResponsive">
+				<ul class="navbar-nav ml-auto">
+					<li class="nav-item dropdown"><a
+							class="nav-link dropdown-toggle" href="#"
+							id="navbarDropdownMenuLink" role="button" data-toggle="dropdown"
+							aria-haspopup="true" aria-expanded="false">
+							<span th:text="${session.nombreUsuario}">USER</span></a>
+							<div class="dropdown-menu"
+								aria-labelledby="navbarDropdownMenuLink">
+								<a class="dropdown-item" th:href="@{/usuario/juegos}">Biblioteca de juegos</a>
+								<a class="dropdown-item" th:href="@{/usuario/compras}">Compras</a>
+								<a class="dropdown-item" th:href="@{/getCart}">Carrito</a> 
+								<a class="dropdown-item" th:href="@{/usuario/cerrar}">Salir</a> 
+							</div></li>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+</div>
+
+<!-- Navigation -->
+<div th:fragment="header-user-compras">
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+		<div class="container">
+
+			<a class="navbar-brand" th:href="@{/}"><i class="fas fa-gamepad"></i> Pixel Palace</a>
+<button class="navbar-toggler" type="button" data-toggle="collapse"
+				data-target="#navbarResponsive" aria-controls="navbarResponsive"
+				aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarResponsive">
+				<ul class="navbar-nav ml-auto">
+					<li class="nav-item dropdown"><a
+							class="nav-link dropdown-toggle" href="#"
+							id="navbarDropdownMenuLink" role="button" data-toggle="dropdown"
+							aria-haspopup="true" aria-expanded="false">
+							<span th:text="${session.nombreUsuario}">USER</span></a>
+							
+							<div class="dropdown-menu"
+								aria-labelledby="navbarDropdownMenuLink">
+								<a class="dropdown-item" th:href="@{/usuario/juegos}">Biblioteca de juegos</a>
+								<a class="dropdown-item" th:href="@{/usuario/compras}">Compras</a>
+								<a class="dropdown-item" th:href="@{/getCart}">Carrito</a> 
+								<a class="dropdown-item" th:href="@{/usuario/cerrar}">Salir</a> 
+							</div></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+</div>
 
 	<!-- Footer -->
 	<div th:fragment="footer">
@@ -109,15 +167,15 @@
             <a href="https://t.me/tucuenta" target="_blank" class="social-media-link"><i
                     class="fab fa-telegram"></i></a>
         </div>
+        
     </footer>
 
 	</div>
 
-	<!-- Bootstrap core JavaScript -->
-	<script th:src="@{vendor/jquery/jquery.min.js}"></script>
-	<script th:src="@{vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
-	 <!-- mi Javascript para busqueda en index -->
-	<script th:src="@{/javascript/script-buscador.js}"></script>
+	<!-- Bootstrap core JavaScript y otros scripts -->
+    <script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+    <script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/javascript/script-buscador.js}"></script>
 </body>
 
 </html>

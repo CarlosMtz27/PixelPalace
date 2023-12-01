@@ -18,9 +18,9 @@
 		<!-- Custom styles for this template -->
 		<link th:href="@{css/heroic-features.css}" rel="stylesheet">
 	</head>
-	<body>
+	<body id="cuerpo-listaJuegos">
 		<!-- Navigation -->
-		<div th:include="usuario/template_usuario.html::header-user"></div>
+		<div th:include="usuario/template_usuario.html::header-user-compras"></div>
 		<!-- Page Content -->
 		<div class="container">
 			<!-- Page Heading/Breadcrumbs -->
@@ -33,12 +33,14 @@
 			</ol>
 
 			<!-- Blog Post -->
+			<div class="mi-contenedor">
 			<div class="card mb-4">
 				<div class="card-body">
 					<div class="row">
 						<div class="col-lg-6">
 							<a href="#"> <img class="img-fluid rounded" th:src="@{/images/{img} (img=${producto.imagen})  }" alt=""></a>
 						</div>
+					
 						<div class="col-lg-6">
 							<form th:action="@{/cart}" method="POST" th:if="${session != null}">
 								<input type="hidden" th:value="${producto.id}" name="id">
@@ -47,6 +49,14 @@
 									<li class="list-group-item"><h5 th:text=" 'Precio: '+ ${producto.precio} "></h5></li>
 									<li class="list-group-item">
 										<p th:text=" 'Descripción: '+ ${producto.descripcion} "></p>
+										<p th:text = "'Genero: '+${producto.genero}"></p>
+									</li>
+									<li class = "list-group-item"><h5>Requisitos minimos</h5>
+										<p>Sistema operativo: Windows 8</p>
+										<p th:text = "'Procesador: '+${producto.procesador}"></p>
+										<p th:text = "'Ram: '+${producto.ram} + GB"></p>
+										<p th:text = "'Tarjeta grafica: '+${producto.tarjeta_grafica}"></p>
+										<p th:text = "'Almacenamiento: '+${producto.almacenamiento}+GB"></p>
 									</li>
 									<li class="list-group-item">
 										<h6>Cantidad: <input type="number" id="cantidad" name="cantidad" autocomplete="off" min="1" max="5" value="1"></h6>
@@ -54,6 +64,7 @@
 								</ul>
 								<button type="submit" class="btn btn-dark" >Añadir al carrito</button>
 							</form>
+						</div>
 						</div>
 					</div>
 				</div>

@@ -20,68 +20,8 @@
 </head>
 
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-    <div class="container">
-        <a class="navbar-brand" th:href="@{/}"><i class="fas fa-gamepad"></i> Pixel Palace</a>
-
-        <form class="form-inline my-2 my-lg-0" method="post" th:action="@{/search}">
-            <input class="form-control mr-sm-2" type="search"
-                placeholder="Buscar" aria-label="Search" name="nombre"
-                autocomplete="off">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
-        </form>
-
-        <button class="navbar-toggler" type="button" data-toggle="collapse"
-            data-target="#navbarResponsive" aria-controls="navbarResponsive"
-            aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span th:text="${session.nombreUsuario}">USER</span>
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <a class="dropdown-item" th:href="@{/usuario/compras}">Compras</a>
-                        <a class="dropdown-item" th:href="@{/getCart}">Carrito</a>
-                        <a class="dropdown-item" th:href="@{/usuario/cerrar}">Salir</a>
-                    </div>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
-
-<!--<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="index.html">
-            <i class="fas fa-gamepad"></i> Pixel Palace
-        </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="index.html">
-                        <i class="fas fa-home"></i> Inicio
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="juegos.html">
-                        <i class="fas fa-gamepad"></i> Juegos
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="carrito.html">
-                        <i class="fas fa-shopping-cart"></i> Carrito <span id="cantidad-carrito">0</span>
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </nav>-->
-	
+<!-- Navigation -->
+	<div th:include="usuario/template_usuario.html::header-user-compras"></div>
 	<div class="cuerpo">
     <!-- partial:index.partial.html -->
     <div class="payment-title">
@@ -197,22 +137,22 @@
     <div class="form-container">
         <div class="field-container">
             <label for="name">Nombre</label>
-            <input id="name" maxlength="20" type="text" name="nombreTitular">
+            <input id="name" maxlength="20" type="text" name="nombreTitular" required>
         </div>
         <div class="field-container">
             <label for="cardnumber">Numero de tarjeta</label><span id="generatecard">generar aleatorio</span>
-            <input id="cardnumber" type="text"  inputmode="numeric" name="numero">
+            <input id="cardnumber" type="text"  inputmode="numeric" name="numero" required>
             <svg id="ccicon" class="ccicon" width="750" height="471" viewBox="0 0 750 471" version="1.1"
                 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
             </svg>
         </div>
         <div class="field-container">
             <label for="expirationdate">Fecha de expiracion (mm/yy)</label>
-            <input id="expirationdate" type="text" inputmode="numeric" name="fechaExpiracion">
+            <input id="expirationdate" type="text" inputmode="numeric" name="fechaExpiracion" required>
         </div>
         <div class="field-container">
             <label for="securitycode">Codigo de seguridad</label>
-            <input id="securitycode" type="text" inputmode="numeric" name="codigoSeguridad">
+            <input id="securitycode" type="text" inputmode="numeric" name="codigoSeguridad" required>
         </div>
     </div>
     <input type="hidden" value="tarjeta" name="tipo">

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta name="description" content="">
+		<meta name="author" content="">
+		<title>Pixel Palace</title>
+	<link rel="stylesheet" th:href="@{/vendor/bootstrap/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/vendor/bootstrap/css/bootstrap-grid.min.css}">
+    <link rel="stylesheet" th:href="@{/vendor/bootstrap/css/bootstrap-reboot.min.css}">
+	<link rel="stylesheet" th:href="@{/css/heroic-features.css}">
+	<link rel="stylesheet" th:href="@{/css/EstiloBotonesFiltro.css}">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
+    <link rel="icon" href="/images/almohadilla-de-juego.png" type="image/png">
+</head>
+  <body id="cuerpo-listaJuegos">
+<!-- Navigation -->
+<!-- Condición para verificar si el usuario está autenticado -->
+<div th:if="${#session.getAttribute('idusuario') != null}">
+    <!-- Incluye el fragmento para usuarios autenticados -->
+    <div th:include="usuario/template_usuario.html::header-ListaJuegos"></div>
+</div>
+<!-- Condición para usuarios no autenticados -->
+<div th:unless="${#session.getAttribute('idusuario') != null}">
+    <!-- Incluye el fragmento para usuarios no autenticados -->
+    <div th:include="home/template_home.html::header-ListaJuegosNoLogin"></div>
+</div>
+<!--Contenido General-->
+<div class="container mt-5">
+    <h1 class="minecraft-title">Lista de Videojuegos Disponibles</h1>
+    
+        <!-- Filtro de género -->
+    <form method="get" th:action="@{/filterByGenre}">
+    <label for="genero">Filtrar por género:</label>
+    <select id="genero" name="genre">
+    <option value="todos">Todos los géneros</option>
+    <option value="Aventura">Aventura</option>
+    <option value="Acción">Acción</option>
+    <option value="Sandbox">Sandbox</option>
+    <option value="Battle Royale">Battle Royale</option>
+    <option value="Shooter">Shooter</option>
+    <option value="MOBA">MOBA</option>
+    <option value="Partido">Partido</option>
+    <option value="RPG">RPG</option>
+    <option value="Simulación">Simulación</option>
+    <option value="Lucha">Lucha</option>
+    <option value="Survival Horror">Survival Horror</option>
+    <option value="Deportes">Deportes</option>
+    <option value="Plataformas">Plataformas</option>
+    <option value="Roguelike">Roguelike</option>
+    </select>
+    <button type="submit">Filtrar</button>
+</form>
+<!-- Barra de búsqueda por nombre de juego -->
+<div class="input-group input-group-lg mb-3">
+    <form class="form-inline ml-3 w-100" method="post" th:action="@{/searchGames}">
+        <div class="input-group w-100 flex-nowrap">
+            <input class="form-control" type="search" placeholder="Buscar juegos" aria-label="Buscar" id="query" list="resultados-list" oninput="buscarProductos()" name="nombre" autocomplete="off">
+            <div class="input-group-append">
+                <button class="btn btn-outline-light" type="submit">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </div>
+        <datalist id="resultados-list"></datalist>
+    </form>
+</div>
+
+<!-- Botones de filtrado por letra -->
+<div class="text-center mt-3">
+    <a th:href="@{/filterByLetter?letter=A}" class="ov-btn-grow-skew">A</a>
+    <a th:href="@{/filterByLetter?letter=B}" class="ov-btn-grow-skew">B</a>
+    <a th:href="@{/filterByLetter?letter=C}" class="ov-btn-grow-skew">C</a>
+    <a th:href="@{/filterByLetter?letter=D}" class="ov-btn-grow-skew">D</a>
+    <a th:href="@{/filterByLetter?letter=E}" class="ov-btn-grow-skew">E</a>
+    <a th:href="@{/filterByLetter?letter=F}" class="ov-btn-grow-skew">F</a>
+    <a th:href="@{/filterByLetter?letter=G}" class="ov-btn-grow-skew">G</a>
+    <a th:href="@{/filterByLetter?letter=H}" class="ov-btn-grow-skew">H</a>
+    <a th:href="@{/filterByLetter?letter=I}" class="ov-btn-grow-skew">I</a>
+    <a th:href="@{/filterByLetter?letter=J}" class="ov-btn-grow-skew">J</a>
+    <a th:href="@{/filterByLetter?letter=K}" class="ov-btn-grow-skew">K</a>
+    <a th:href="@{/filterByLetter?letter=L}" class="ov-btn-grow-skew">L</a>
+    <a th:href="@{/filterByLetter?letter=M}" class="ov-btn-grow-skew">M</a>
+    <a th:href="@{/filterByLetter?letter=N}" class="ov-btn-grow-skew">N</a>
+    <a th:href="@{/filterByLetter?letter=O}" class="ov-btn-grow-skew">O</a>
+    <a th:href="@{/filterByLetter?letter=P}" class="ov-btn-grow-skew">P</a>
+    <a th:href="@{/filterByLetter?letter=Q}" class="ov-btn-grow-skew">Q</a>
+    <a th:href="@{/filterByLetter?letter=R}" class="ov-btn-grow-skew">R</a>
+    <a th:href="@{/filterByLetter?letter=S}" class="ov-btn-grow-skew">S</a>
+    <a th:href="@{/filterByLetter?letter=T}" class="ov-btn-grow-skew">T</a>
+    <a th:href="@{/filterByLetter?letter=U}" class="ov-btn-grow-skew">U</a>
+    <a th:href="@{/filterByLetter?letter=V}" class="ov-btn-grow-skew">V</a>
+    <a th:href="@{/filterByLetter?letter=W}" class="ov-btn-grow-skew">W</a>
+    <a th:href="@{/filterByLetter?letter=X}" class="ov-btn-grow-skew">X</a>
+    <a th:href="@{/filterByLetter?letter=Y}" class="ov-btn-grow-skew">Y</a>
+    <a th:href="@{/filterByLetter?letter=Z}" class="ov-btn-grow-skew">Z</a>
+</div>
+   
+<!-- Sección para mostrar el género filtrado -->
+<div th:if="${generoFiltrado}" class="mb-4">
+    <h4 th:text="${generoFiltrado}" class="text-info"></h4>
+</div>
+
+      <!-- Lista de juegos -->
+<ul class="list-group" id="lista-juegos">
+    <li class="list-group-item" th:each="juego: ${productos}">
+        <div class="d-flex">
+			
+            <img th:src="@{/images/{img} (img=${juego.imagen})}" alt="" class="img-thumbnail mr-3" id="imagenJuego">
+            <div>
+                <h5 th:text="${juego.nombre}"></h5>
+                <p th:text="${juego.descripcion}"></p>          
+               <!-- Condición para mostrar el botón de compra -->
+                <div th:if="${#session.getAttribute('idusuario') != null}">
+                    <!-- Botón para comprar el juego -->
+                    <a th:href="@{/productohome/{id} (id=${juego.id})}" class="btn btn-primary">Comprar juego</a>
+                </div>
+                <!-- Condición para usuarios no logeados -->
+                <div th:unless="${#session.getAttribute('idusuario') != null}">
+                    <!-- Enlace para redirigir a la página de inicio de sesión -->
+                    <a th:href="@{/usuario/login}" class="btn btn-dark text-center d-flex align-items-center">Inicia sesión para añadir al carrito</a>
+                </div>
+                <!-- Fin de la condición -->
+            </div>
+             <!-- Etiqueta del género en la esquina superior derecha -->
+            <span th:text="${generoFiltrado}" class="badge badge-primary position-absolute top-0 end-0">
+                <i class="fas fa-tag"></i> <!-- Icono de etiqueta (puedes cambiarlo según tus preferencias) -->
+            </span>
+            </div>
+        </div>
+    </li>
+</ul>
+</div>
+
+    <!-- Pie de página -->
+    <div th:include="usuario/template_usuario.html::footer"></div>
+    <!-- Bootstrap core JavaScript y otros scripts -->
+    <script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+    <script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/javascript/script-buscador.js}"></script>
+</body>
+</html>

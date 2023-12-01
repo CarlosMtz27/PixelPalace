@@ -5,10 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.uacm.pixelpalace.model.FormaDePago;
 import com.uacm.pixelpalace.model.Usuario;
-import com.uacm.pixelpalace.repository.IFormaPagoRepository;
 import com.uacm.pixelpalace.repository.IUsuarioRepository;
 
 
@@ -18,8 +15,8 @@ public class UsuarioServiceImpl implements IUsuarioService {
 
 	@Autowired
 	private IUsuarioRepository usuarioRepository;
-	@Autowired
-	private IFormaPagoRepository formapago;
+	/*@Autowired
+	private IFormaPagoRepository formapago;*/
 
 	@Override
 	public Optional<Usuario> findById(Integer id) {
@@ -43,10 +40,7 @@ public class UsuarioServiceImpl implements IUsuarioService {
 
 	@Override
 	public void update(Usuario usuario) {
-		System.out.println();
-		System.out.println(usuario);
-		System.out.println(usuario);
-		System.out.println();
+		
 		usuarioRepository.save(usuario);
 	}
 
